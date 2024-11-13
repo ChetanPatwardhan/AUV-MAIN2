@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="final mission editor.css">
+</head>
+<body>
+     <!-- Settings Panel -->
+     <div id="settingsPanel" class="settings-panel">
+        <span class="close-btn" id="closePanelBtn">&times;</span>
+        <h2>Settings</h2>
+        <!-- Add your settings content here -->
+        <div>
+            <h5>Editor</h5>
+            <h5><a href="final general setting.html" style="text-decoration:none;">Settings</a></h5>
+        </div>
+        
+        <!-- Add more settings as needed -->
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+
+   <div class="header">
+        <div class="left">
+            <b>
+              <button id="missionEditorBtn"><b>Mission Editor</b></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button><b><a href="Live Tracking.html" style="text-decoration:none;">Live Tracking</a></b></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button><b><a href="Replay.html" style="text-decoration:none;">Replay</a></b></button>
+            </b>
+        </div>
+        <div class="center"><b>Bharat Forge</b></div>
+        <div class="right">
+            <img src="Kalyani1.jpg" alt="Open Mission" style="border: 1px solid white;" width="20" height="20"><b>AUV</b>
+        </div>
+    </div>
+
+    <div class="divider1"></div>
+
+    <div class="main">
+        <div class="center-panel">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d49681293.3338235!2d85.9709283465221!3d21.51929459709748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1725011614635!5m2!1sen!2sin" width="1600" height="850" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+           
+            <div class="transparent-buttons">
+                <button><img src="measure.png" alt="Measure" width="30" height="20">Measure</button>
+                <button><img src="drag.png" alt="Drag" width="30" height="20">Drag</button>
+                <button><img src="center.jpg" alt="Center" width="30" height="20">Center</button>
+                <button><img src="edit.png" alt="Edit" width="30" height="20">Edit</button>
+                  <!-- New buttons for WP, Track, Circle -->
+              <div id="deviceButtons" style="display:none;" >
+                <button><img src="wp1.png" alt="WP" width="30" height="20">WP</button>
+                <button><img src="track.jpg" alt="Track" width="30" height="20">Track</button>
+                <button><img src="circle.png" alt="Circle" width="30" height="20">Circle</button>
+            </div>
+            </div>  
+
+            <div class="transparent-controls">
+                <div class="zoom-panel">
+                    <label for="zoomRange">Zoom</label>
+                    <input type="range" id="zoomRange" min="1" max="100" value="10" onchange="updateZoomValue()">
+                    <span id="zoomValue">10</span>
+                </div>
+                <div class="degree-display">
+                    <label for="degreeRange">Degree:</label>
+                    <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="updateDegreeValue()">
+                    <span id="degreeValue">0°</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-header">Layers</div>
+                <select id="layerSelect" onchange="addLayer()">
+                    <option value="" disabled selected>Select a layer</option>
+                    <option value="S57">S57</option>
+                    <option value="S63">S63</option>
+                    <option value="GeoTIFF">GeoTIFF</option>
+                    <option value="WMTS">WMTS</option>
+                    <option value="WMS">WMS</option>
+                </select>
+                <div class="layer-list"></div>
+            </div>
+        </div>
+
+        <div class="divider2"></div>
+
+        <!-- Right Panel for File Path, Duration, Mission Details -->
+        <div class="right-panel">
+            <div class="file-info">
+                <div>File Path</div>
+                <div id="filePathDisplay">No path selected</div>
+                <div>Duration</div>
+                <div id="durationDisplay">00:00:00</div>
+            </div>         
+
+            <div class="divider"></div>
+
+            <!-- New Mission Header -->
+
+            <div id="newMissionHeader" style="display:none;">
+            <h3>New Mission</h3>
+             <div id="missionNameDisplay"></div> <!-- Placeholder for the mission name -->
+             <div id="addedDevices"></div> <!-- Display Added Devices Here -->
+            </div>
+
+
+            <!-- Add New Payload Section -->
+            <div id="payloadSection" style="display:none;">
+                <h4>Add New Payload</h4>
+                <input type="text" id="payloadInput" placeholder="Enter Payload Name">
+                <select id="payloadType">
+                    <option value="" selected>Select Payload Type</option>
+                    <option >SSS-Klein</option>
+                    <option >OAS</option>
+                    <option >AML</option>
+                    <option >Megnetometer</option>
+                    <option >CTD</option>
+                </select>
+                <button id="addPayloadBtn">Add Payload</button>
+                <div id="payloadBox"></div>
+                <button id="savePayloadBtn">Save Payloads</button>
+            </div>
+
+            <!-- Add New Device Section -->
+            <div id="deviceSection" style="display:none;">
+                <h4>Add New Device</h4>
+                <input type="text" id="deviceInput" placeholder="Enter Device Name">
+                <select id="deviceType">
+                    <option value="" selected>Select Device Type</option>
+                    <option >Comet</option>
+                    <option >Beacon</option>
+                    <option >Nemosens</option>
+                    <option >Surface</option>
+                    <option >Diver</option>
+                </select>
+                
+                <input type="number" id="deviceInput" placeholder="Enter Serial Number">
+                <button id="addDeviceBtn">Add Device</button>
+                <div id="deviceBox"></div>
+                <div>
+                    <h4>Use Saved Payloads</h4>
+                    <select id="usePayloadDropdown">
+                        <option value="" disabled selected>Select a saved payload</option>
+                    </select>
+                    <button id="addSavedPayloadBtn">Add Selected Payload</button>
+                    <div id="savedPayloadList"></div>
+                </div>
+                <div><button id="saveMission">Save Mission</button></div>
+            </div>
+            
+            <div class="divider"></div>
+
+            <!-- Hidden File Input to Select Mission File -->
+            <input type="file" id="fileInput" style="display:none;" accept=".txt,.json,.xml,.csv">
+
+            <div class="mission-buttons">
+                <button id="openMissionBtn">
+                    <img src="open.png" alt="Open Mission" style="border: 1px solid white;" width="30" height="18">
+                    Open an Existing Mission
+                </button>
+                <button id="createMissionBtn">
+                    <img src="create.jpg" alt="Create Mission" style="border: 1px solid white;" width="30" height="25">
+                    Create New Mission
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="final mission editor.js"></script>
+</body>
+</html>

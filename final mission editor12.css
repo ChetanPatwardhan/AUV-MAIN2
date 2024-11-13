@@ -1,0 +1,50 @@
+
+.settings-panel {
+	width: 210px;
+	height: 100%;
+	background-color: whitesmoke;
+	position: fixed;
+	top: 0;
+	left: -300px;
+	transition: 0.3s;
+	z-index: 1000;
+	padding: 10px;
+	color:black;
+	overflow-y: auto;
+}
+
+.settings-panel.open {
+	left: 0;
+}
+
+.settings-panel h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+
+.close-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+	font-size: 24px;
+}
+
+/* Dark overlay when settings panel is open */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	display: none;
+}
+
+.overlay.show {
+	display: block;
+}
+.settings-panel h5 {
+	margin-left: 20px;
+}

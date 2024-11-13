@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Transfer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: px;
+            background-color: rgb(230, 226, 226);
+        }
+
+        /* Top Header */
+        .header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-top: 2px solid black;
+        }
+
+        /* Container for both panels */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+        /* Left Panel */
+        .left-panel {
+            width: 48%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 48%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Vertical Divider between the panels */
+        .vertical-divider {
+            width: 10px;
+            background-color: black;
+        }
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* Footer Divider */
+        .footer-divider {
+            position: fixed;
+            bottom: 38px;
+            width: 100%;
+            border-top: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <div class="header">
+        File Transfer
+    </div>
+    
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Panels Container -->
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <!-- Content for Left Panel -->
+            <p>Local</p>
+        </div>
+
+        <!-- Vertical Divider Line -->
+        <div class="vertical-divider" style="width: 2px; height: 850px;"></div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <!-- Content for Right Panel -->
+            <p>Remote</p>
+        </div>
+    </div>
+
+    <!-- Divider Line Above Footer -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+
+</body>
+</html>

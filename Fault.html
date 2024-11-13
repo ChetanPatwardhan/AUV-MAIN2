@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(230, 226, 226);
+        }
+
+        /* Top Header */
+        .header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 13px;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-top: 2px solid black;
+        }
+
+        /* Points and Values */
+        .point-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-bottom: 10px;
+        }
+
+        .point {
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .value {
+            font-size: 14px;
+            margin-right:85%;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        /* Footer Divider (just above the footer) */
+        .footer-divider {
+            position: fixed;
+            bottom: 38px; /* Adjust this value based on footer height */
+            width: 100%;
+            border-top: 2px solid black;
+        }
+        .footer-dividers{
+            position: fixed;
+            top: 38%px; /* Adjust this value based on footer height */
+            width: 100%;
+            border-top: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <div class="header">
+        Fault
+    </div>
+    
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Fault Points -->
+    <div class="point-container">
+        <div class="point">Status</div>
+        <div class="value">---</div>
+    </div>
+    <div class="point-container">
+        <div class="point">Nb Fault Raised</div>
+        <div class="value">0</div>
+    </div>
+    <div class="point-container">
+        <div class="point">Nb Fault Active</div>
+        <div class="value">0</div>
+    </div>
+    <div class="point-container">
+        <div class="point">Nb Fault Inhibited</div>
+        <div class="value">0</div>
+    </div>
+    <div class="footer-dividers"></div>
+    <!-- Divider Line Above Footer -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+
+</body>
+</html>

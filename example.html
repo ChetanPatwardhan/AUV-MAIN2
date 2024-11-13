@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUV Mission Map</title>
+   
+</head>
+<body>
+
+    <!-- HTML File -->
+<input type="file" id="fileInput" />
+<button id="openButton">Open Data</button>
+
+<!-- Display Data -->
+<div>
+    <p><strong>Time:</strong> <span id="time"></span></p>
+    <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+    <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+    <p><strong>Pitch:</strong> <span id="pitch"></span></p>
+    <p><strong>Roll:</strong> <span id="roll"></span></p>
+    <p><strong>Battery:</strong> <span id="battery"></span></p>
+    <p><strong>Pressure:</strong> <span id="pressure"></span></p>
+</div>
+
+<script>
+
+// JavaScript
+
+// Function to update the UI with the data
+function updateUI(data) {
+    document.getElementById('time').innerText = new Date(data.time * 1000).toLocaleTimeString(); // Convert time to human-readable format
+    document.getElementById('latitude').innerText = data.latitude.toFixed(6);
+    document.getElementById('longitude').innerText = data.longitude.toFixed(6);
+    document.getElementById('pitch').innerText = data.pitch.toFixed(2);
+    document.getElementById('roll').innerText = data.roll.toFixed(2);
+    document.getElementById('battery').innerText = `${data.battery.toFixed(1)}%`;
+    document.getElementById('pressure').innerText = `${data.pressure.toFixed(2)} hPa`;
+}
+
+// Event listener for the "Open Data" button
+document.getElementById('openButton').addEventListener('click', function() {
+    const fileInput = document.getElementById('fileInput');
+    
+    if (fileInput.files.length === 0) {
+        alert("Please select a file.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    // Read the file as text
+    reader.onload = function(event) {
+        // Parse the JSON data
+        const data = JSON.parse(event.target.result);
+        
+        let currentIndex = 0;
+
+        // Function to display each data point with a delay (to simulate playback)
+        function displayData() {
+            if (currentIndex < data.length) {
+                updateUI(data[currentIndex]);
+                currentIndex++;
+                setTimeout(displayData, 1000); // Display next data every 1 second
+            }
+        }
+
+        displayData(); // Start displaying data
+    };
+    
+    // Read the selected file
+    reader.readAsText(file);
+});
+
+
+</script>
+
+</body>
+</html>

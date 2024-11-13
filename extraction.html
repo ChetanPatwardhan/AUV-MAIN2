@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extraction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(230, 226, 226);
+        }
+        .header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .divider {
+            border-top: 2px solid black;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 25px;
+            margin-left: 20px;
+        }
+        .panel {
+            width: 65%;
+        }
+        .point {
+            font-size: 13px;
+            margin-bottom: 20px;
+            margin-top:10px;
+        }
+        .point-list {
+            margin-left: 15px;
+        }
+        .pointhead{
+            font-weight: bold;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #4caf50;
+        }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+           /* Footer Divider (just above the footer) */
+        .footer-divider {
+            position: fixed;
+            bottom: 38px; /* Adjust this value based on footer height */
+            width: 100%;
+            border-top: 2px solid black;
+        }
+        .file-input-wrapper{
+            margin-top: 10px;
+        }
+        #actionButtons button {
+            padding: 7px 7px;
+            margin-right: 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+    <div class="header">Extraction</div>
+    <div class="divider"></div>
+
+ <div class="main-content">
+    <div class="panel left-panel">
+        <div class="pointhead">Generate Report</div>
+        <div class="point-list">
+            <div class="point">PDF Report
+                <div id="actionButtons" style="display: inline;">
+                    <button id="createReportBtn">Create Report</button>
+                    <button id="openFileBtn" style="display: none;">Open File</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="panel right-panel">
+            <div class="pointhead">CSV extraction</div>
+            <div class="point-list">
+                <div class="point">Navigation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="Navigation">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="point">Magnetometer&nbsp;&nbsp;
+                    <!-- Toggle Button -->
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="Magnetometer">
+                        <span class="slider"></span>
+                    </label>
+                    <!-- Select Box for Magnetometer options -->
+                    <select id="magnetometerSelect" class="select-box">
+                        <option value="APS 1540">APS 1540</option>
+                        <option value="Marine Magnetics">Marine Magnetics</option>
+                    </select>
+                </div>
+                <div class="point">CTD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="toggle-switch">
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="CTD">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="point">Fault&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="Fault">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="point">RACAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="RACAM">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="point">Cyclops&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="data-toggle" data-label="Cyclops">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="actionButtons" style="margin-top: 20px;">
+                    <button id="saveDataBtn">Save Data</button>
+                    <button id="openFileBtn">Open File</button>
+                </div>
+            </div>
+         </div>
+    </div>
+
+    <!-- Divider Line Above Footer -->
+<div class="footer-divider"></div>
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script>
+        const saveDataBtn = document.getElementById("saveDataBtn");
+        const dataToggles = document.querySelectorAll(".data-toggle");
+
+        saveDataBtn.addEventListener("click", () => {
+            // Collect data for checked toggles only
+            const data = [["Parameter", "Value"]];
+            dataToggles.forEach(toggle => {
+                if (toggle.checked) {
+                    data.push([toggle.getAttribute("data-label"), "Enabled"]);
+                }
+            });
+
+            if (data.length > 1) { // Only save if there is checked data
+                const worksheet = XLSX.utils.aoa_to_sheet(data);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Extraction Data");
+
+                // Save to file
+                XLSX.writeFile(workbook, "extraction_data.xlsx");
+                alert("Selected toggle data saved as Excel file.");
+            } else {
+                alert("No toggles selected.");
+            }
+        });
+
+        openFileBtn.addEventListener("click", () => {
+            alert("This button would open the saved Excel file if supported by the browser environment.");
+        }); 
+    </script>
+<script>
+    document.getElementById("createReportBtn").addEventListener("click", function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Data to include in the PDF
+        const data = {
+            "navigation": {
+                "latitude": "28.7050°",
+                "longitude": "77.1040°",
+                "pitch": "5.7°",
+                "roll": "3.3°",
+                "pressureSensor": "975 mBar",
+                "internalPressure": "740 mBar"
+            },
+            "gps": {
+                "fix": "Yes",
+                "sync": "Yes"
+            },
+            "hardware": {
+                "battery": "83%",
+                "storage": "126GB"
+            },
+            "parameters": {
+                "Navigation": "Enabled",
+                "Magnetometer": "Enabled",
+                "CTD": "Enabled",
+                "Fault": "Enabled",
+                "RACAM": "Enabled",
+                "Cyclops": "Enabled"
+            }
+        };
+
+        // Formatting content for the PDF
+        doc.setFontSize(14);
+        doc.text("Report", 10, 10);
+
+        doc.setFontSize(12);
+        doc.text("Navigation:", 10, 20);
+        doc.text(`Latitude: ${data.navigation.latitude}`, 20, 30);
+        doc.text(`Longitude: ${data.navigation.longitude}`, 20, 40);
+        doc.text(`Pitch: ${data.navigation.pitch}`, 20, 50);
+        doc.text(`Roll: ${data.navigation.roll}`, 20, 60);
+        doc.text(`Pressure Sensor: ${data.navigation.pressureSensor}`, 20, 70);
+        doc.text(`Internal Pressure: ${data.navigation.internalPressure}`, 20, 80);
+
+        doc.text("GPS:", 10, 90);
+        doc.text(`Fix: ${data.gps.fix}`, 20, 100);
+        doc.text(`Sync: ${data.gps.sync}`, 20, 110);
+
+        doc.text("Hardware:", 10, 120);
+        doc.text(`Battery: ${data.hardware.battery}`, 20, 130);
+        doc.text(`Storage: ${data.hardware.storage}`, 20, 140);
+
+        // Adding Parameters Section
+        doc.text("Parameters:", 10, 150);
+        doc.text(`Navigation: ${data.parameters.Navigation}`, 20, 160);
+        doc.text(`Magnetometer: ${data.parameters.Magnetometer}`, 20, 170);
+        doc.text(`CTD: ${data.parameters.CTD}`, 20, 180);
+        doc.text(`Fault: ${data.parameters.Fault}`, 20, 190);
+        doc.text(`RACAM: ${data.parameters.RACAM}`, 20, 200);
+        doc.text(`Cyclops: ${data.parameters.Cyclops}`, 20, 210);
+
+        // Save the PDF
+        const fileName = "generated_report.pdf";
+        doc.save(fileName);
+
+        // Show "Open File" button after creating the report
+        const openFileBtn = document.getElementById("openFileBtn");
+        openFileBtn.style.display = "inline-block";
+        openFileBtn.onclick = function () {
+            // Use the URL to the saved PDF (for demo purposes, we simulate this behavior)
+            window.open(fileName);
+        };
+    });
+</script>
+</body>
+</html>

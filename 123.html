@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUV Mission Map</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+        #clearMap {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>AUV Mission Planner</h1>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Button to clear the map -->
+<button id="clearMap">Clear Map</button>
+
+<!-- Leaflet and Leaflet Draw Scripts -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<!-- Your Script -->
+<script>
+    // Initialize the map and set view to a default location
+    var map = L.map('map').setView([20.5937, 78.9629], 5);  // India location as default
+
+    // Add GeoServer WMS layer (change URL and parameters as per your server)
+    L.tileLayer.wms('http://localhost:127.0.0.1/geoserver/auv_workspace/wms', {
+    layers: 'auv_workspace:mission_layer',
+    format: 'image/png',
+    transparent: true,
+    attribution: "AUV Map"
+}).addTo(map);
+
+    // Feature group to store drawn items
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    // Add drawing controls
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        },
+        draw: {
+            polyline: true,  // Allow drawing lines for missions
+            polygon: false,  // Disable other shapes
+            circle: false,
+            rectangle: false,
+            marker: false
+        }
+    });
+    map.addControl(drawControl);
+
+    // On creation of a new shape (line)
+    map.on(L.Draw.Event.CREATED, function (e) {
+        var layer = e.layer;
+        drawnItems.addLayer(layer);
+
+        // If the shape is a polyline, measure its distance
+        if (layer instanceof L.Polyline) {
+            var latlngs = layer.getLatLngs();
+            var distance = 0;
+            for (var i = 1; i < latlngs.length; i++) {
+                distance += latlngs[i-1].distanceTo(latlngs[i]);
+            }
+            alert("Distance: " + (distance / 1000).toFixed(2) + " km");
+        }
+    });
+
+    // Center the map when clicked
+    map.on('click', function (e) {
+        map.setView(e.latlng, map.getZoom());
+    });
+
+    // Button to clear all drawn shapes
+    document.getElementById('clearMap').onclick = function() {
+        drawnItems.clearLayers();
+    };
+
+</script>
+
+</body>
+</html>

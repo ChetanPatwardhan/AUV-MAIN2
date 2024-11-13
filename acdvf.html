@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="final mission editor.css">
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <img src="setting.png" alt="Open Mission" style="border: 1px solid white;" width="30" height="20">
+            <b>
+                <a href="final general setting.html">Mission Editor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="https://www.live tracking.com">Live Tracking</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="https://www.live tracking.com">Replay</a>
+            </b>
+        </div>
+        <div class="center"><b>Bharat Forge</b></div>
+        <div class="right">
+            <img src="Kalyani1.jpg" alt="Open Mission" style="border: 1px solid white;" width="30" height="25"><b>AUV</b>
+        </div>
+    </div>
+
+    <div class="divider1"></div>
+
+    <div class="main">
+        <div class="center-panel">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d49681293.3338235!2d85.9709283465221!3d21.51929459709748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1725011614635!5m2!1sen!2sin" width="1600" height="850" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            <div class="transparent-buttons">
+                <button><img src="measure.png" alt="Measure" width="30" height="20">Measure</button>
+                <button><img src="drag.png" alt="Drag" width="30" height="20">Drag</button>
+                <button><img src="center.jpg" alt="Center" width="30" height="20">Center</button>
+                <button><img src="edit.png" alt="Edit" width="30" height="20">Edit</button>
+            </div>
+
+            <div class="transparent-controls">
+                <div class="zoom-panel">
+                    <label for="zoomRange">Zoom</label>
+                    <input type="range" id="zoomRange" min="1" max="100" value="10" onchange="updateZoomValue()">
+                    <span id="zoomValue">10</span>
+                </div>
+                <div class="degree-display">
+                    <label for="degreeRange">Degree:</label>
+                    <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="updateDegreeValue()">
+                    <span id="degreeValue">0°</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-header">Layers</div>
+                <select id="layerSelect" onchange="addLayer()">
+                    <option value="" disabled selected>Select a layer</option>
+                    <option value="S57">S57</option>
+                    <option value="S63">S63</option>
+                    <option value="GeoTIFF">GeoTIFF</option>
+                    <option value="WMTS">WMTS</option>
+                    <option value="WMS">WMS</option>
+                </select>
+                <div class="layer-list"></div>
+            </div>
+        </div>
+
+        <div class="divider2"></div>
+
+        <!-- Right Panel for File Path, Duration, Mission Details -->
+        <div class="right-panel">
+            <div class="file-info">
+                <div>File Path</div>
+                <div>Duration</div>
+                <div id="durationDisplay">00:00:00</div>
+            </div>            
+
+            <div class="divider"></div>
+
+            <!-- New Mission Header -->
+            <div id="newMissionHeader" style="display:none;">
+                <h3>New Mission</h3>
+            </div>
+
+            <!-- Add New Payload Section -->
+            <div id="payloadSection" style="display:none;">
+                <h4>Add New Payload</h4>
+                <input type="text" id="payloadInput" placeholder="Enter Payload Name">
+                <select id="payloadType">
+                    <option value="" selected>Select Payload Type</option>
+                    <option>SSS-Klein</option>
+                    <option>OAS</option>
+                    <option>AML</option>
+                    <option>Megnetometer</option>
+                    <option>CTD</option>
+                </select>
+                <button id="addPayloadBtn">Add Payload</button>
+                <div id="payloadBox"></div>
+                <button id="savePayloadBtn">Save Payloads</button> <!-- New Save Button -->
+            </div>
+
+            <!-- Add New Device Section -->
+            <div id="deviceSection" style="display:none;">
+                <h4>Add New Device</h4>
+                <input type="text" id="deviceInput" placeholder="Enter Device Name">
+                <select id="deviceType">
+                    <option value="" selected>Select Device Type</option>
+                    <option>Comet</option>
+                    <option>Beacon</option>
+                    <option>Nemosens</option>
+                    <option>Surface</option>
+                    <option>Diver</option>
+                </select>
+                <button id="addDeviceBtn">Add Device</button>
+                <input type="number" id="deviceSerialNumberInput" placeholder="Enter Serial Number">
+                <div id="deviceBox"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Hidden File Input to Select Mission File -->
+            <input type="file" id="fileInput" style="display:none;" accept=".txt,.json,.xml,.csv">
+
+            <div class="mission-buttons">
+                <button id="openMissionBtn">
+                    <img src="open.png" alt="Open Mission" style="border: 1px solid white;" width="30" height="18">
+                    Open an Existing Mission
+                </button>
+                <button id="createMissionBtn">
+                    <img src="create.jpg" alt="Create Mission" style="border: 1px solid white;" width="30" height="25">
+                    Create New Mission
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let payloads = [];
+
+        // Update Zoom Value
+        function updateZoomValue() {
+            const zoomRange = document.getElementById('zoomRange');
+            const zoomValue = document.getElementById('zoomValue');
+            zoomValue.textContent = zoomRange.value;
+        }
+
+        // Update Degree Value
+        function updateDegreeValue() {
+            const degreeRange = document.getElementById('degreeRange');
+            const degreeValue = document.getElementById('degreeValue');
+            degreeValue.textContent = `${degreeRange.value}°`;
+        }
+
+        // Add Layer Functionality
+        function addLayer() {
+            const select = document.getElementById('layerSelect');
+            const layerName = select.value;
+            const layerList = document.querySelector('.layer-list');
+            const existingLayer = Array.from(layerList.children).find(layer => layer.textContent.includes(layerName));
+
+            if (!existingLayer) {
+                const layerItem = document.createElement('div');
+                layerItem.className = 'layer-item';
+                layerItem.innerHTML = `${layerName} <button onclick="removeLayer(this)"><img src="delet2.jpg" alt="Remove Layer" style="border: 1px solid white;" width="15" height="15"></button>`;
+                layerList.appendChild(layerItem);
+            }
+        }
+
+        // Remove Layer
+        function removeLayer(button) {
+            const layerItem = button.parentElement;
+            layerItem.remove();
+        }
+
+        // Show New Mission on Clicking Create New Mission
+        document.getElementById('createMissionBtn').addEventListener('click', function() {
+            // Show New Mission Header, Add Payload and Add Device sections
+            document.getElementById('newMissionHeader').style.display = 'block';
+            document.getElementById('payloadSection').style.display = 'block';
+            document.getElementById('deviceSection').style.display = 'block';
+        });
+
+        // Add Payload Functionality
+        document.getElementById('addPayloadBtn').addEventListener('click', function() {
+            const payloadName = document.getElementById('payloadInput').value;
+            const payloadType = document.getElementById('payloadType').value;
+
+            if (payloadName && payloadType) {
+                const payloadBox = document.getElementById('payloadBox');
+                const payloadItem = document.createElement('div');
+                payloadItem.className = 'payload-item';
+                payloadItem.textContent = `${payloadName} (${payloadType})`;
+                payloadBox.appendChild(payloadItem);
+
+                // Save to payload array
+                payloads.push({ name: payloadName, type: payloadType });
+
+                // Clear input fields
+                document.getElementById('payloadInput').value = '';
+                document.getElementById('payloadType').value = '';
+            }
+        });
+
+        // Save Payloads to a File
+        document.getElementById('savePayloadBtn').addEventListener('click', function() {
+            if (payloads.length > 0) {
+                const payloadData = JSON.stringify(payloads, null, 2);
+                const blob = new Blob([payloadData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                // Create a link element to download the file
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'payloads.json';  // Default filename
+                a.click();
+
+                // Clean up
+                URL.revokeObjectURL(url);
+            } else {
+                alert("No payloads to save!");
+            }
+        });
+
+        // Add Device Functionality
+        document.getElementById('addDeviceBtn').addEventListener('click', function() {
+            const deviceName = document.getElementById('deviceInput').value;
+            const deviceType = document.getElementById('deviceType').value;
+            const deviceSerialNumber = document.getElementById('deviceSerialNumberInput').value;
+
+            if (deviceName && deviceType) {
+                const deviceBox = document.getElementById('deviceBox');
+                const deviceItem = document.createElement('div');
+                deviceItem.className = 'device-item';
+                deviceItem.textContent = `${deviceName} (${deviceType}) - Serial No: ${deviceSerialNumber}`;
+                deviceBox.appendChild(deviceItem);
+
+                // Clear input fields
+                document.getElementById('deviceInput').value = '';
+                document.getElementById('deviceType').value = '';
+                document.getElementById('deviceSerialNumberInput').value = '';
+            }
+        });
+    </script>
+</body>
+</html>

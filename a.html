@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batteries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: rgb(230, 226, 226);
+        }
+
+        /* Main Header */
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-top: 2px solid black;
+            margin: 15px 0;
+        }
+
+        /* Container for both panels */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px; /* Added margin to space panels from header */
+        }
+
+        /* Left Panel */
+        .left-panel {
+            width: 48%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 48%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        /* Headers for the Panels */
+        .panel-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Data in Left Panel */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        /* Button in Right Panel */
+        .start-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .start-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* Footer Divider */
+        .footer-divider {
+            position: fixed;
+            bottom: 38px;
+            width: 100%;
+            border-top: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <div class="main-header">
+        Batteries
+    </div>
+    
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Panels Container -->
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <div class="panel-header">Current Battery Bloc Status - COMET ONLY</div>
+            <div class="data-row">
+                <span>ID</span>
+                <span>Voltage</span>
+                <span>Temperature</span>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="panel-header">Battery Balancing - NEMOSENS ONLY</div>
+            <button class="start-btn">Start</button>
+        </div>
+    </div>
+
+    <!-- Divider Line Above Footer -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+
+</body>
+</html>

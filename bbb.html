@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+           <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        body{
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(230, 226, 226);
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: rgb(161, 158, 158);
+            color:black;
+            font-size: medium;
+        }
+
+        .header .left,
+        .header .center,
+        .header .right{
+            flex: 1;
+        }
+        .header .center {
+            text-align: center;
+        }
+
+        .header .right {
+            text-align: right;
+        }
+        .divider1{
+            border-bottom: 2px solid black;
+            margin: 0 0;
+        }
+
+        .main{
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+        .left-panel{
+            width: 10%;
+            padding: 15px;
+            background-color: rgb(230, 226, 226);
+        }
+
+
+        .left-panel .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .left-panel .buttons button {
+            padding: 10px;
+            background-color: white;
+            color:black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .center-panel{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content:flex-start;
+    padding: 20px;
+    position:relative;
+ }
+        .zoom-panel{
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: black;
+        }
+        .degree-display{
+            font-size: 13px;
+        }
+        .layer-box {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 150px;
+            border: 2px solid black;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .layer-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .layer-list {
+            font-size: 12px;
+        }
+
+
+        .right-panel{
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgb(161, 158, 158);
+            padding: 15px;
+            
+        }
+
+        .file-info{
+            text-align: left;
+            margin-bottom: auto;
+        }
+        .file-info div{
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: black;
+        }
+        .divider{
+            border-bottom: 2px solid black;
+            margin: 20px 0;
+        }
+        .mission-buttons {
+            text-align: right;
+        }
+
+        .mission-buttons button{
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            color:black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left"><b>Mission Editor</b></div>
+        <div style="text-align: center;">
+            <img src="bfl1.jpg" alt="Company Logo"  width="120" height="43">
+        </div>
+        <div class="right"><b>AUV</b></div>
+    </div>
+    <div class="divider1"></div>
+    <div class="main">
+        <div class="left-panel">
+                <div class="buttons">
+                    <button> <img src="measure.png" alt="open file" style="border: 1px solid white;" width="30" height="25">Measure</button>
+                    <button> <img src="drag.png" alt="open file" style="border: 1px solid white;" width="30" height="25">Drag</button>
+                    <button> <img src="center.jpg" alt="open file" style="border: 1px solid white;" width="30" height="25">Center</button>
+                    <button> <img src="edit.png" alt="open file" style="border: 1px solid white;" width="30" height="25">Edit</button>
+                </div>
+        </div>
+        <div class="center-panel">
+        
+            <div class="zoom-panel">
+                Zoom Level 
+                <input type="range" id="zoomRange"  min="1" max="100" value="50" onchange="updateZoomValue()">
+                <span id="zoomValue">50</span>
+            </div>
+            <div class="degree-display">
+                0° 
+                <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="updateDegreeValue()">
+                <span id="degreeValue">0°</span>
+            </div>
+            <div class="layer-box">
+                <div class="layer-header">Layers</div>
+                <select id="layerSelect" onchange="addLayer()">
+                    <option value="" disabled selected>Select a layer</option>
+                    <option value="S57">S57</option>
+                    <option value="S63">S63</option>
+                    <option value="GeoTIFF">GeoTIFF</option>
+                    <option value="WMTS">WMTS</option>
+                    <option value="WMS">WMS</option>
+                </select>
+                <div class="layer-list">
+                    <!-- Dynamically added layers will appear here -->
+                </div>
+            </div>
+            <div id="map" style="width: 75%; height: 75%;"></div>
+
+           <!--<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d49681293.3338235!2d85.9709283465221!3d21.51929459709748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1725011614635!5m2!1sen!2sin" width="1400" height="1000" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>-->
+        </div>
+
+        <div class="right-panel">
+            <div class="file-info">
+                <div>File Path</div>
+                <div>Duration</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="mission-buttons">
+                <button>
+                    <img src="open.png" alt="open file" style="border: 1px solid white;" width="30" height="18">
+                Open an Existing Mission</button>
+                <button>
+                    <img src="create.jpg" alt="create file" style="border: 1px solid white;" width="30" height="25">
+                Create New Mission</button>
+            </div>
+            
+    </div>
+    <script>
+    let map;
+
+document.addEventListener("DOMContentLoaded", function () {
+    map = L.map('map').setView([51.505, -0.09], 13); // Default view
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            });
+</script>
+    
+     <script>
+        function addLayer() {
+    const select = document.getElementById('layerSelect');
+    const layerName = select.value;
+    const layerList = document.querySelector('.layer-list');
+    const existingLayer = Array.from(layerList.children).find(layer => layer.textContent.includes(layerName));
+
+    if (!existingLayer) {
+        const layerItem = document.createElement('div');
+        layerItem.className = 'layer-item';
+        layerItem.innerHTML = `${layerName} <button onclick="removeLayer(this)"><img src="delet2.jpg" alt="open file" style="border: 1px solid white;" width="15" height="15"></button>`;
+        layerList.appendChild(layerItem);
+
+        loadMapLayer(layerName);
+                      }
+        }
+
+        function loadMapLayer(layerName) {
+    switch(layerName) {
+        case 'S57':
+            // Load S57 layer
+            // Example: L.tileLayer('S57_URL').addTo(map);
+            break;
+        case 'S63':
+            // Load S63 layer
+            // Example: L.tileLayer('S63_URL').addTo(map);
+            break;
+        case 'GeoTIFF':
+            // Load GeoTIFF layer
+            // Example: L.tileLayer('GeoTIFF_URL').addTo(map);
+            break;
+        case 'WMTS':
+            // Load WMTS layer
+            // Example: L.tileLayer('WMTS_URL').addTo(map);
+            break;
+        case 'WMS':
+            // Load WMS layer
+            L.tileLayer.wms('WMS_URL', {
+                layers: 'layer_name',
+                format: 'image/png',
+                transparent: true
+            }).addTo(map);
+            break;
+        default:
+            console.log('Layer not recognized');
+    }
+}
+
+        function removeLayer(button) {
+            const layerItem = button.parentElement;
+            layerItem.remove();
+        }
+    </script>
+    <script>
+               function updateZoomValue() {
+             const zoomRange = document.getElementById('zoomRange');
+             const zoomValue = document.getElementById('zoomValue');
+             zoomValue.textContent = zoomRange.value;
+        }
+
+            function updateDegreeValue() {
+            const degreeRange = document.getElementById('degreeRange');
+            const degreeValue = document.getElementById('degreeValue');
+            degreeValue.textContent = `${degreeRange.value}°`;
+        }
+    </script>
+    
+</body>
+</html>

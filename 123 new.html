@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenStreetMap with Leaflet</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 500px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- Leaflet Draw JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script>
+    // Initialize the map and set its view
+    var map = L.map('map').setView([20.5937, 78.9629], 5);  // Centered on India
+
+    // Add OpenStreetMap Humanitarian Layer
+    L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Initialize the feature group for drawn items
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    // Add Leaflet Draw control to the map
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    map.addControl(drawControl);
+
+    // Event listener for drawing on the map
+    map.on(L.Draw.Event.CREATED, function (event) {
+        var layer = event.layer;
+        drawnItems.addLayer(layer);
+    });
+
+    // Example: Measure distance functionality (optional)
+    var measuring = false;
+    var measureControl = L.control({position: 'topleft'});
+
+    measureControl.onAdd = function () {
+        var button = L.DomUtil.create('button', 'measure-btn');
+        button.innerHTML = 'Measure Distance';
+        button.onclick = function () {
+            measuring = !measuring;
+            this.innerHTML = measuring ? 'Stop Measuring' : 'Measure Distance';
+            if (measuring) {
+                drawnItems.clearLayers();
+                map.on('click', addMarker);
+            } else {
+                map.off('click', addMarker);
+            }
+        };
+        return button;
+    };
+
+    measureControl.addTo(map);
+
+    function addMarker(e) {
+        var marker = L.marker(e.latlng).addTo(map);
+        drawnItems.addLayer(marker);
+        // Optional: Logic to measure distance can be implemented here
+    }
+</script>
+
+</body>
+</html>

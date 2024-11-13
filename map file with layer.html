@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="final mission editor.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100%; }
+        .layer-selector {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .map-tools {
+            position: absolute;
+            top: 10px;
+            left: 350px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="layer-selector">
+    <label for="layerSelect">Select Map Layer:</label>
+    <select id="layerSelect">
+        <option value="hot">Humanitarian</option>
+        <option value="fr">OSM-FR</option>
+        <option value="gm">OSM-GM</option>
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+        <option value="wms">WMS Layer</option>
+        <option value="s57">S-57 Layer</option>
+        <option value="s63">S-63 Layer</option>
+    </select>
+</div>
+
+<!-- Tools for map controls -->
+<div class="map-tools">
+    <button id="waypointBtn">Waypoint</button>
+    <button id="centerBtn">Center Map</button>
+    <button id="trackBtn">Track</button>
+    <button id="trackFamilyBtn">Track Family (100.0m)</button>
+    <button id="circleBtn">Draw Circle</button>
+</div>
+
+<div id="map"></div>
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- Leaflet Draw JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script>
+    // Initialize the map and set its view
+    var map = L.map('map').setView([20.5937, 78.9629], 5);  // Centered on India
+
+    // Define tile layers
+    var humanitarianLayer = L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var osmFrLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://www.openstreetmap.fr">OpenStreetMap France</a>'
+    });
+
+    var osmGmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var lightLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var wmsLayer = L.tileLayer.wms('https://example.com/geoserver/wms', {
+        layers: 'your-wms-layer-name',
+        format: 'image/png',
+        transparent: true,
+        attribution: '&copy; Your WMS Attribution'
+    });
+
+    var s57Layer = L.tileLayer('http://example.com/s57/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; Your S-57 Attribution'
+    });
+
+    var s63Layer = L.tileLayer('http://example.com/s63/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; Your S-63 Attribution'
+    });
+
+    // Initially add the humanitarian layer to the map
+    humanitarianLayer.addTo(map);
+
+    // Initialize the feature group for drawn items
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    // Add Leaflet Draw control to the map
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    map.addControl(drawControl);
+
+    // Event listener for drawing on the map
+    map.on(L.Draw.Event.CREATED, function (event) {
+        var layer = event.layer;
+        drawnItems.addLayer(layer);
+    });
+
+    // Layer change event
+    document.getElementById('layerSelect').addEventListener('change', function() {
+        var selectedLayer = this.value;
+        map.eachLayer(function (layer) {
+            if (layer !== drawnItems) {
+                map.removeLayer(layer);
+            }
+        });
+        if (selectedLayer === 'hot') {
+            humanitarianLayer.addTo(map);
+        } else if (selectedLayer === 'fr') {
+            osmFrLayer.addTo(map);
+        } else if (selectedLayer === 'gm') {
+            osmGmLayer.addTo(map);
+        } else if (selectedLayer === 'light') {
+            lightLayer.addTo(map);
+        } else if (selectedLayer === 'dark') {
+            darkLayer.addTo(map);
+        } else if (selectedLayer === 'wms') {
+            wmsLayer.addTo(map);
+        } else if (selectedLayer === 's57') {
+            s57Layer.addTo(map);
+        } else if (selectedLayer === 's63') {
+            s63Layer.addTo(map);
+        }
+    });
+
+    // Waypoint functionality
+    document.getElementById('waypointBtn').addEventListener('click', function() {
+        map.once('click', function(e) {
+            L.marker(e.latlng).addTo(map).bindPopup('Waypoint').openPopup();
+        });
+    });
+
+    // Center map on India (or another specific point)
+    document.getElementById('centerBtn').addEventListener('click', function() {
+        map.setView([20.5937, 78.9629], 5);  // Center on India
+    });
+
+    // Track functionality (Polyline)
+    document.getElementById('trackBtn').addEventListener('click', function() {
+        var polyline = L.polyline([], { color: 'blue' }).addTo(map);
+        map.on('click', function(e) {
+            polyline.addLatLng(e.latlng);
+        });
+    });
+
+    // Track family functionality (Circle with radius)
+    document.getElementById('trackFamilyBtn').addEventListener('click', function() {
+        map.once('click', function(e) {
+            L.circle(e.latlng, { radius: 100, color: 'green' }).addTo(map).bindPopup('Track Family (100.0m)').openPopup();
+        });
+    });
+
+    // Draw circle functionality
+    document.getElementById('circleBtn').addEventListener('click', function() {
+        map.once('click', function(e) {
+            L.circle(e.latlng, { radius: 500, color: 'red' }).addTo(map).bindPopup('Circle (500m)').openPopup();
+        });
+    });
+
+
+    var waypointLayer = L.layerGroup().addTo(map);
+    var trackLine = null;
+    var totalDistance = 0;
+
+    // Function to measure distance between points
+    function measureDistance(latlng1, latlng2) {
+        return map.distance(latlng1, latlng2);
+    }
+
+    // Click to add waypoint and start tracking the line
+    map.on('click', function (e) {
+        if (trackLine === null) {
+            var marker = L.marker(e.latlng, {
+                draggable: true
+            }).addTo(waypointLayer);
+            
+            // Start the polyline in yellow
+            trackLine = L.polyline([e.latlng], {
+                color: 'yellow',
+                weight: 4
+            }).addTo(map);
+
+            // Track the line and measure distance
+            map.on('mousemove', function (event) {
+                trackLine.addLatLng(event.latlng);
+                var dist = measureDistance(trackLine.getLatLngs()[0], event.latlng);
+                totalDistance = dist.toFixed(2);
+                console.log('Distance from waypoint: ' + totalDistance + ' meters');
+            });
+
+            // Stop tracking on click
+            map.once('click', function (event) {
+                map.off('mousemove');
+                trackLine.addLatLng(event.latlng);
+                console.log('Final distance: ' + totalDistance + ' meters');
+            });
+        }
+    });
+
+    // Function to draw track family (Rail1 subpoints like j1a, j1b, etc.)
+    function drawTrackFamily() {
+        var railPath = [
+            [20.0, 78.0], // j1a
+            [20.1, 78.1], // j1b
+            [20.2, 78.2], // j2a
+            [20.3, 78.3]  // j2b
+        ];
+
+        var railLine = L.polyline(railPath, {
+            color: 'blue',
+            weight: 4
+        }).addTo(map);
+
+        // Add markers for the subpoints
+        railPath.forEach(function (point) {
+            L.marker(point).addTo(waypointLayer);
+        });
+
+        console.log("Track family (Rail1) drawn with subpoints j1a, j1b, j2a, j2b");
+    }
+
+    // Add a button to trigger track family drawing
+    var trackFamilyControl = L.control({ position: 'topleft' });
+    trackFamilyControl.onAdd = function () {
+        var button = L.DomUtil.create('button', 'track-family-btn');
+        button.innerHTML = 'Track Family (Rail1)';
+        button.onclick = function () {
+            drawTrackFamily();
+        };
+        return button;
+    };
+    trackFamilyControl.addTo(map);
+</script>
+
+</body>
+</html>

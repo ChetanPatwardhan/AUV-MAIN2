@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replay</title>
+    <link rel="stylesheet" href="replay css file.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+  <!-- Leaflet Draw CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+   <!-- Leaflet JavaScript -->
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+   
+   <!-- Leaflet Draw JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>  
+
+ <!-- Leaflet Measure CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.3.0/dist/leaflet-measure.css" />
+
+<!-- Leaflet Measure JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.3.0/dist/leaflet-measure.min.js"></script>
+
+    <style>
+
+      body { margin: 0; padding: 0; }
+        #map { height: 850px; width: 1400px;  overflow: hidden;  align-items: center;
+            justify-content: center;}
+        .layer-selector {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .map-tools {
+            position: absolute;
+            top: 10px;
+            left: 350px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        /* Footer styles */
+        
+.footer {
+	position: fixed;
+	width: 100%;
+	
+	color: black;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px;
+	font-size: 14px;
+	border-top: 2px solid black;
+}
+.footer-item {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+
+.footer-item label {
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+        .open-button {
+            position: absolute;
+            right: 15px;
+            padding: 5px 10px;
+            background-color: #03182e;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        /* Replay controls */
+        .replay-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 50px;
+        }
+        .replay-controls button {
+            background-color: #052342;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+      /* Styles for aligning the progress bar and time on the same line */
+   .progress-container {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust as needed */
+   
+       }
+    .progress-container span {
+        font-weight: bold;
+        margin-right: 20px;
+        }
+    .progress-bar {
+    flex-grow: 1;
+    margin: 0 20px; /* Spacing between the times and progress bar */
+    background-color: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    border-color: black;
+    }
+    /* The actual progress indicator */
+   #progress {
+    height: 100%;
+    width: 30%; /* Example width - update dynamically as needed */
+    background-color: #021f3d;
+    border-radius: 5px;
+    border-color: black;
+    
+   }
+   .transparent-buttons {
+    position: absolute;
+    top: 20px; /* Adjust this value as needed */
+    left: 50px;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensure buttons appear above the map */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-left: 30px;
+}
+
+.transparent-buttons button {
+    background-color: white;
+	border: 2px solid #000;
+	padding: 10px 20px;
+	border-radius: 5px;
+	color: black;
+	cursor: pointer;
+	font-size: 13px;
+	text-align: center;
+	backdrop-filter: blur(5px);
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.transparent-buttons button img {
+    vertical-align: middle; /* Align icons with text */
+    margin-right: 5px;
+}
+ 
+  /* Styling for spacing between labels and values */
+        .parameter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+        }
+       
+        .parameter-value{
+            font-weight: bold;
+            margin-right: 15px;
+        }
+ .blink-red {
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.green {
+    background-color: green;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.parameter {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Adjust gap for spacing between elements */
+
+}
+
+.parameter .indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: transparent; /* Initially transparent */
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.indicator.active {
+    background-color: rgb(164, 243, 164); /* Green color to indicate data is loaded */
+}
+
+    </style>
+</head>
+<body>
+     <!-- Settings Panel -->
+     <div id="settingsPanel" class="settings-panel">
+        <span class="close-btn" id="closePanelBtn">&times;</span>
+        <h2>Settings</h2>
+        <!-- Add your settings content here -->
+        <div>
+            <h5>Replay</h5>
+            <h5><a href="extraction.html" style="text-decoration:none;">Extraction</a></h5>
+            <h5><a href="Replay Setting.html" style="text-decoration:none;">Settings</a></h5>
+        </div>
+        
+        <!-- Add more settings as needed -->
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+
+    <div class="header">
+        <div class="left">
+            <button id="missionEditorBtn" img src="setting.jpg" alt="Open Mission" width="30" height="25"><b>Replay</b></button>
+        </div>
+        <div class="center"><b>Replay</b></div>
+        <div class="right">
+            <img src="Kalyani1.jpg" alt="Open Mission" style="border: 1px solid white;" width="25" height="21"><b>AUV</b>
+        </div>
+    </div>
+    <div class="divider1"></div>
+
+    <div class="main">
+         <!-- Left Panel -->
+         <div class="left-panel" style="width: 268px;">
+           <div class="file-info">
+        <h3>Navigation</h3>
+        <div class="parameter">
+            <span class="parameter-label">Latitude:</span>
+            <span id="latitude" class="parameter-value">---</span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Longitude:</span>
+            <span id="longitude" class="parameter-value">---</span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Pitch:</span>
+            <span id="pitch" class="parameter-value">---</span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Roll:</span>
+            <span id="roll" class="parameter-value">---</span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Pressure Sensor:</span>
+            <span id="pressureSensor" class="parameter-value">---</span>
+            <span id="pressureIndicator" class="indicator"></span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Internal Pressure:</span>
+            <span id="internalPressure" class="parameter-value">---</span>
+            <span id="internalPressureIndicator" class="indicator"></span>
+        </div>
+        
+
+        <h3>GPS</h3>
+        <div class="parameter">
+            <span class="parameter-label">Fix:</span>
+            <span id="gpsFix" class="parameter-value"><span class="blink-re"></span></span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Sync:</span>
+            <span id="gpsSync" class="parameter-value"><span class="blink-re"></span></span>
+        </div>
+
+        <h3>Hardware</h3>
+        <div class="parameter">
+            <span class="parameter-label">Battery:</span>
+            <span id="battery" class="parameter-value">---</span>
+        </div>
+        <div class="parameter">
+            <span class="parameter-label">Storage:</span>
+            <span id="storage" class="parameter-value">---</span>
+        </div>
+        
+        <div class="payload-section">
+            <label for="leftPayloadToggle"><h3>Payload:</h3></label>
+            <input type="checkbox" id="leftPayloadToggle" class="toggle-switch">
+        </div>
+    </div>
+<div class="divider2"></div>
+        </div>
+        <div class="center-panel">
+            <div id="map" style="transition: transform 0.5s ease;" ></div>
+            <div id="mapContainer">
+                <!-- Transparent AUV marker -->
+                <div id="auvMarker"></div>
+              </div>
+            <div class="transparent-buttons">
+                <button id="measureButton">
+                    <img src="measure.png" alt="Measure" width="30" height="20"> Measure
+                </button>
+                <button id="dragButton">
+                    <img src="drag.png" alt="Drag" width="30" height="20"> Drag
+                </button>
+                <button id="centerButton">
+                    <img src="center.jpg" alt="Center" width="30" height="20"> Center
+                </button>
+               </div>
+            
+            
+
+            <!-- Leaflet JavaScript -->
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+   
+            <!-- Leaflet Draw JavaScript -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>  
+            
+            <div class="transparent-controls">
+                <div class="zoom-panel">
+                    <label for="zoomRange">Zoom</label>
+                    <input type="range" id="zoomRange" min="1" max="19" value="10">
+                     <span id="zoomValue">10</span>
+                </div>
+                <div class="degree-display">
+                    <label for="degreeRange">Degree:</label>
+                    <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="rotateMap()">
+                    <span id="degreeValue">0°</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <label for="layer-header"><b>Layers</b></label>
+                <select id="layerSelect" onchange="addLayer()">
+                    <option value="" disabled selected>Select a layer</option>
+                    <option value="hot">Humanitarian</option>
+                    <option value="fr">OSM-FR</option>
+                    <option value="gm">OSM-GM</option>
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="wms">WMS Layer</option>
+                    <option value="s57">S-57 Layer</option>
+                    <option value="s63">S-63 Layer</option>
+                </select>
+                <div class="layer-list"></div>
+            </div>
+            <div class="transparent-buttons">
+                <button><img src="measure.png" alt="Measure" width="30" height="20">Measure</button>
+                <button><img src="drag.png" alt="Drag" width="30" height="20">Drag</button>
+                <button><img src="center.jpg" alt="Center" width="30" height="20">Center</button>
+            </div>
+        </div>
+        
+        <div class="divider2"></div>
+
+        <div class="right-panel" style="width: 250px;">
+            <div class="file-info">
+                <!-- Headers for different sections -->
+                <h3>UI Device</h3>
+                <p><img src="ui device.jpg" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p>
+                <p><img src="altitude.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="profondeur.png" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p>
+                <p><img src="pata nahi.jpg" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="gps time.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="heading.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="location main.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p>
+        
+                 <!-- Acoustic Section -->
+        <h3>Acoustic</h3>
+        <div class="acoustic-section">
+            <label for="acousticSelect"><img src="ui device.jpg" alt="Measure" width="30" height="20"></label>
+            <select id="acousticSelect" >
+                <option value="" disabled selected>Select Acoustic Device</option>
+                <!-- Add more acoustic devices here -->
+            </select>
+        </div>
+                <p><img src="network.jpg" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="altitude.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="profondeur.png" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p>
+                <p><img src="pata nahi.jpg" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="gps time.png" alt="Measure" width="30" height="20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="heading.png" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+                <p><img src="battery.jpg" alt="Measure" width="30" height="25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---</p> 
+               
+        <!-- Latitude Input -->
+        <div class="input-group">
+        <label for="latitude" id="latitude" >Latitude:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</label>
+            </div>
+
+        <!-- Longitude Input -->
+        <div class="input-group">
+        <label for="longitude" id="longitude">Longitude:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</label>
+        </div>
+
+          </div>
+      </div>   
+    </div>
+    <div class="divider2"></div>
+    <!-- Footer for Battery, Mode, Host, and GPS -->
+    <div class="footer">
+        <!-- Replay Controls (play, stop, forward, backward) -->
+        <div class="replay-controls">
+            <button id="backwardBtn">Backward</button>
+            <button id="playPauseBtn">Play</button>
+            <button id="forwardBtn">Forward</button>
+        </div>
+
+        <!-- Video Progress and Time -->
+        <div class="progress-container">
+            <span id="startTime">00:00:00</span>
+            <div class="progress-bar">
+                <div id="progress" style="width: 0%;"></div>
+            </div>
+            <span id="endTime">00:00:00</span>
+        </div>
+        
+        <div class="progress-container">
+            <span>Watched: <span id="watchedTime">00:00:00</span></span>
+        </div>
+         <!-- The open button -->
+      <button class="open-button" id="openBtn">Open</button>
+      <button id="playBtn">Play</button>
+      <!-- Hidden file input -->
+      <input type="file" id="fileInput" >
+
+      
+    </div>
+    <!-- Buttons -->
+     
+           
+    
+<script src="replay javascript.js"></script>
+<script>
+ let data = []; // Store the parsed dataset
+let currentIndex = 0; // Track the current entry in the dataset
+let interval; // Store interval to clear it if needed
+
+document.getElementById('openBtn').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                // Parse the file into JSON
+                data = JSON.parse(e.target.result);
+                currentIndex = 0; // Start from the first entry
+                updateData(); // Update data immediately
+
+                // Clear any existing interval if a file was previously loaded
+                if (interval) clearInterval(interval);
+
+                // Set an interval to update the data every second
+                interval = setInterval(function() {
+                    currentIndex = (currentIndex + 1) % data.length; // Loop through the entries
+                    updateData(); // Update data
+                }, 1000); // 1000ms = 1 second
+            } catch (error) {
+                console.error('Error parsing JSON data:', error);
+                alert('Failed to load data. Please check the file format.');
+            }
+        };
+        reader.readAsText(file);
+    }
+});
+
+function updateData() {
+    const entry = data[currentIndex];
+
+    // Update the navigation data
+    document.getElementById('latitude').innerText = entry.navigation.latitude;
+    document.getElementById('longitude').innerText = entry.navigation.longitude;
+    document.getElementById('pitch').innerText = entry.navigation.pitch;
+    document.getElementById('roll').innerText = entry.navigation.roll;
+    document.getElementById('pressureSensor').innerText = entry.navigation.pressureSensor;
+    document.getElementById('internalPressure').innerText = entry.navigation.internalPressure;
+
+    // Update GPS fix indicator
+    const gpsFixElement = document.getElementById('gpsFix');
+    gpsFixElement.innerHTML = entry.gps.fix === "Yes" ? 
+        '<span class="green"></span>' : '<span class="blink-red"></span>';
+
+    // Update GPS sync indicator
+    const gpsSyncElement = document.getElementById('gpsSync');
+    gpsSyncElement.innerHTML = entry.gps.sync === "Yes" ? 
+        '<span class="green"></span>' : '<span class="blink-red"></span>';
+
+    // Update hardware data
+    document.getElementById('battery').innerText = entry.hardware.battery;
+    document.getElementById('storage').innerText = entry.hardware.storage;
+}
+// Example data
+const dataset = [
+    {
+        navigation: {
+            pressureSensor: "",
+            internalPressure: ""
+        }
+    }
+    // ...additional data points if needed
+];
+
+// Load and display data
+function loadData(data) {
+    // Set values
+    document.getElementById('pressureSensor').textContent = data.navigation.pressureSensor;
+    document.getElementById('internalPressure').textContent = data.navigation.internalPressure;
+
+    // Activate indicators
+    document.getElementById('pressureIndicator').classList.add('active');
+    document.getElementById('internalPressureIndicator').classList.add('active');
+}
+
+// Load the first item in the dataset as an example
+loadData(dataset[0]);
+
+ </script>
+</body>
+</html>

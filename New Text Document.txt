@@ -1,0 +1,2 @@
+https://github.com/tsender/auv_gnc            library for Guidance, navigation,sensor of Auv's
+https://nilsbore.github.io/auvlib-docs        Modern C++ and python library for reading and processing sonar data

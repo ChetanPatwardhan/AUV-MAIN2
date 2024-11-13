@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="css for the new.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 90vh; width: 100%; }
+        .layer-selector {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }   
+        .map-tools {
+            position: absolute;
+            top: 10px;
+            left: 350px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel">
+        <span class="close-btn" id="closePanelBtn">&times;</span>
+        <h2>Settings</h2>
+        <!-- Add your settings content here -->
+        <div>
+            <h5>Editor</h5>
+            <h5><a href="final general setting.html" style="text-decoration:none;">Settings</a></h5>
+        </div>
+        
+        <!-- Add more settings as needed -->
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <div class="header">
+        <div class="left">
+            <b>
+              <button id="missionEditorBtn"><b>Mission Editor</b></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button><b><a href="Live Tracking.html" style="text-decoration:none;">Live Tracking</a></b></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button><b><a href="Replay.html" style="text-decoration:none;">Replay</a></b></button>
+            </b>
+        </div>
+        <div class="center"><b>Bharat Forge</b></div>
+        <div class="right">
+            <img src="Kalyani1.jpg" alt="Open Mission" style="border: 1px solid white;" width="25" height="21"><b>AUV</b>
+        </div>
+    </div>
+
+    <div class="divider1"></div>
+
+    <div class="transparent-controls">
+        <div class="zoom-panel">
+            <label for="zoomRange">Zoom</label>
+            <input type="range" id="zoomRange" min="1" max="100" value="10" onchange="updateZoomValue()">
+            <span id="zoomValue">10</span>
+        </div>
+        <div class="degree-display">
+            <label for="degreeRange">Degree:</label>
+            <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="updateDegreeValue()">
+            <span id="degreeValue">0°</span>
+        </div>
+    </div>
+    
+    <div class="layer-box">
+    <label for="layer-header"><b>Layers</b></label>
+    <select id="layerSelect" onchange="addLayer()">
+        <option value="" disabled selected>Select a layer</option>
+        <option value="hot">Humanitarian</option>
+        <option value="fr">OSM-FR</option>
+        <option value="gm">OSM-GM</option>
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+        <option value="wms">WMS Layer</option>
+        <option value="s57">S-57 Layer</option>
+        <option value="s63">S-63 Layer</option>
+    </select>
+    <div class="layer-list"></div>
+    </div>
+
+    <!-- Tools for map controls -->
+   <div class="map-tools">
+    <button id="waypointBtn">Waypoint</button>
+    <button id="saveBtn">Save Waypoints</button> <!-- Button to save waypoints -->
+    <button id="centerBtn">Center Map</button>
+    <button id="trackBtn">Track</button>
+    <button id="trackFamilyBtn">Track Family (100.0m)</button>
+    <button id="circleBtn">Draw Circle</button>
+    </div>
+    <div class="main">
+      <div class="center-panel">
+         <div id="map"></div>
+         
+         <!-- Leaflet JavaScript -->
+         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+         <!-- Leaflet Draw JavaScript -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>      
+     </div>
+
+     <div class="divider2"></div>
+
+     <!-- Right Panel for File Path, Duration, Mission Details -->
+     <div class="right-panel" style="width: 300px;">
+         <div class="file-info">
+            <div>File Path</div>
+            <div id="filePathDisplay">No path selected</div>
+            <div>Duration</div>
+            <div id="durationDisplay">00:00:00</div>
+         </div> 
+         <div class="divider"></div>
+
+         <!-- New Mission Header -->
+
+         <div id="newMissionHeader" style="display:none;">
+            <h3>New Mission</h3>
+             <div id="missionNameDisplay"></div> <!-- Placeholder for the mission name -->
+             <div id="addedDevices"></div> <!-- Display Added Devices Here -->
+            </div>
+
+
+            <!-- Add New Payload Section -->
+            <div id="payloadSection" style="display:none;">
+                <h4>Add New Payload</h4>
+                <input type="text" id="payloadInput" placeholder="Enter Payload Name">
+                <select id="payloadType">
+                    <option value="" selected>Select Payload Type</option>
+                    <option >SSS-Klein</option>
+                    <option >OAS</option>
+                    <option >AML</option>
+                    <option >Megnetometer</option>
+                    <option >CTD</option>
+                </select>
+                <button id="addPayloadBtn">Add Payload</button>
+                <div id="payloadBox"></div>
+                <button id="savePayloadBtn">Save Payloads</button>
+            </div>
+
+            <!-- Add New Device Section -->
+            <div id="deviceSection" style="display:none;">
+                <h4>Add New Device</h4>
+                <input type="text" id="deviceInput" placeholder="Enter Device Name">
+                <select id="deviceType">
+                    <option value="" selected>Select Device Type</option>
+                    <option >Comet</option>
+                    <option >Beacon</option>
+                    <option >Nemosens</option>
+                    <option >Surface</option>
+                    <option >Diver</option>
+                </select>
+
+                <input type="number" id="deviceInput" placeholder="Enter Serial Number">
+                <button id="addDeviceBtn">Add Device</button>
+                <div id="deviceBox"></div>
+                <div>
+                    <h4>Use Saved Payloads</h4>
+                    <select id="usePayloadDropdown">
+                        <option value="" disabled selected>Select a saved payload</option>
+                    </select>
+                    <button id="addSavedPayloadBtn">Add Selected Payload</button>
+                    <div id="savedPayloadList"></div>
+                </div>
+                <div><button id="saveMission">Save Mission</button></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Hidden File Input to Select Mission File -->
+            <input type="file" id="fileInput" style="display:none;" accept=".txt,.json,.xml,.csv">
+
+            <div class="mission-buttons">
+                <button id="openMissionBtn">
+                    <img src="open.png" alt="Open Mission" style="border: 1px solid white;" width="30" height="18">
+                    Open an Existing Mission
+                </button>
+                <button id="createMissionBtn">
+                    <img src="create.jpg" alt="Create Mission" style="border: 1px solid white;" width="30" height="25">
+                    Create New Mission
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="map layer with html.js"></script>
+</div>  
+</body>
+</html>

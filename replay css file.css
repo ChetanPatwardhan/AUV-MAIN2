@@ -1,0 +1,461 @@
+body{
+	margin: 0;
+	
+	background-color: rgb(230, 226, 226);
+}
+.header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 20px;
+	background-color: rgb(230, 226, 226);
+	color:black;
+	font-size: medium;
+}
+
+.header .left,
+.header .center,
+.header .right{
+	flex: 1;
+}
+.header .center {
+	text-align: center;
+}
+
+.header .right {
+	text-align: right;
+}
+.divider1{
+	border-bottom: 2px solid black;
+	margin: 0 0;
+}
+.divider2{
+	border-left: 2px solid black;
+	margin: 0 0;
+}
+
+.main{
+	display: flex;
+	height: calc(100vh - 100px);
+}
+.center-panel{
+	flex: 1;
+	display: flex;
+	justify-content:flex-start;
+	position:relative;
+}
+.transparent-buttons {
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px; /* Gap between the vertical buttons */
+	margin-top: 15px;
+	margin-left: 10px;
+}
+.transparent-buttons button {
+	background-color: white;
+	border: 2px solid #000;
+	padding: 10px 20px;
+	border-radius: 5px;
+	color: black;
+	cursor: pointer;
+	font-size: 13px;
+	text-align: center;
+	backdrop-filter: blur(5px);
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+	/* Style for WP, Track, Circle buttons */
+	#deviceButtons {
+    display: flex;
+    flex-direction: column; /* Vertical alignment for WP, Track, Circle buttons */
+    gap: 15px; /* 15px gap between the device buttons */
+    margin-top: 10px; /* Space between the edit buttons and the new section */
+	}
+
+	#deviceButtons button {
+    padding: 5px 15px; /* Adjust padding as needed */
+	}
+
+	.transparent-buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+	}
+
+	/* New Transparent Controls */
+	.transparent-controls {
+	position: absolute;
+	top: 10px; /* Adjust this value to position above the layer box */
+	right: 20px;
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: 10px;
+	border-radius: 5px;
+	z-index: 1000;
+	font-size: 12px;
+	color: black;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.transparent-controls div {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.transparent-controls input[type="range"] {
+	width: 100%;
+}
+
+.layer-box {
+	position: absolute;
+	top: 110px; /* Adjusted to make space for transparent-controls */
+	right: 20px;
+	width: 150px;
+	border: 2px solid black;
+	background-color: white;
+	padding: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	z-index: 999;
+}
+.layer-header {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.layer-list {
+	font-size: 12px;
+}
+
+.right-panel{
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: rgb(230, 226, 226);
+	padding: 15px;
+}
+
+.file-info{
+	text-align: left;
+	margin-bottom: auto;
+}
+.file-info div{
+	margin-bottom: 8px;
+	font-size: 13px;
+	color: black;
+}
+.divider{
+	border-bottom: 2px solid black;
+	margin: 20px 0;
+}
+.mission-buttons {
+	text-align: right;
+}
+
+.mission-buttons button{
+	width: 100%;
+	padding: 10px;
+	background-color: white;
+	color:black;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 13px;
+	margin-bottom: 10px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.durationDisplay{
+	font-size: 12px;
+}
+.new-mission-popup {
+    background-color: white;
+    border: 2px solid black;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: black;
+}.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+	background-color: rgb(230, 226, 226);
+}
+
+.replay-controls,
+.progress-container,
+.watched-time,
+.open-file {
+    margin: 4px 0;
+   
+    justify-content: center;
+}
+
+.replay-controls button {
+    margin: 0 10px;
+}
+
+.progress-container {
+    max-width: 400px;
+}
+
+.progress-bar {
+    background-color: #ddd;
+    width: 100%;
+    height: 4px;
+    margin: 0 10px;
+    position: relative;
+}
+
+#progress {
+    background-color: #4CAF50;
+    height: 100%;
+}
+
+.watched-time span {
+    font-size: 14px;
+}
+
+.open-file {
+    margin-top: 10px;
+}
+
+.open-button {
+    padding: 5px 10px;
+}
+
+.right-panel {
+    padding: 10px;
+    border-left: 2px solid #ccc;
+    height: 100%;
+}
+
+h3 {
+    font-size: 13px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.section-content {
+    margin-bottom: 20px;
+}
+.mission-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.mission-section label {
+    margin-right: 10px;
+}
+
+.mission-section select {
+    margin-right: 3px;
+    padding: 5px;
+    width: 150px;
+}
+
+.mission-section button {
+    margin-right: 5px;
+    cursor: pointer;
+}
+.device-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.device-section label {
+    margin-right: 10px;
+}
+
+.device-section select {
+    padding: 5px;
+    width: 150px;
+}
+.acoustic-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.acoustic-section label {
+    margin-right: 10px;
+}
+.acoustic-section select {
+    padding: 5px;
+    width: 150px;
+}
+/* Styling for the Manual section with Go To and Set Position */
+.manual-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.manual-controls label {
+    margin-right: 10px;
+}
+
+.manual-controls input[type="checkbox"] {
+    margin-right: 20px;
+}
+
+/* Optional: Toggle switch style */
+.toggle-switch {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+.toggle-switch:checked {
+    background-color: #4CAF50;
+}
+
+.toggle-switch:before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transition: 0.2s;
+}
+
+.toggle-switch:checked:before {
+    left: 21px;
+}
+/* Styling for the Payload section */
+.payload-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.payload-section label {
+    margin-right: 10px;
+}
+
+/* Reusing the existing toggle switch styles */
+.toggle-switch {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+.toggle-switch:checked {
+    background-color: #4CAF50;
+}
+
+.toggle-switch:before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transition: 0.2s;
+}
+
+.toggle-switch:checked:before {
+    left: 21px;
+}
+/* Input group layout for all input fields */
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+	font-size: 8px;
+}
+
+.input-group label {
+    margin-right: 10px;
+    width: 50px; /* Adjust label width */
+}
+
+.input-group input[type="text"] {
+    width: 100px;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.input-group input[type="range"] {
+    width: 100px;
+}
+
+.settings-panel {
+	width: 210px;
+	height: 100%;
+	background-color: whitesmoke;
+	position: fixed;
+	top: 0;
+	left: -300px;
+	transition: 0.3s;
+	z-index: 1000;
+	padding: 10px;
+	color:black;
+	overflow-y: auto;
+}
+
+.settings-panel.open {
+	left: 0;
+}
+
+.settings-panel h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+
+.close-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+	font-size: 24px;
+}
+
+/* Dark overlay when settings panel is open */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	display: none;
+}
+
+.overlay.show {
+	display: block;
+}
+
+.settings-panel h5 {
+	margin-left: 20px;
+	text-decoration: none;
+	color: #000;
+}
+
+.p{
+    font-size: 10px;
+}
+

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Header */
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-top: 2px solid black;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* Left and Right Panels */
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 40px;
+        }
+
+        .panel {
+            width: 45%;
+        }
+
+        /* Styling the Headers and Points */
+        .panel-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .sub-point-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding: 10px;
+        }
+
+        .point {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .point-list {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <div class="header">
+        Maintenance
+    </div>
+    
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Main Content with Left and Right Panels -->
+    <div class="main-content">
+        <!-- Left Panel -->
+        <div class="panel left-panel">
+            <div class="panel-header">General</div>
+            <div class="point-list">
+                <div class="point">Mission</div>
+                <div class="point">E. Consumption</div>
+                <div class="point">Serial Number</div>
+            </div>
+
+            <div class="sub-point-header">Navigation</div>
+            <div class="point-list">
+                <div class="point">INS</div>
+                <div class="point">Pressure Sensor</div>
+                <div class="point">Internal Pressure</div>
+            </div>
+
+            <div class="sub-point-header">GPS</div>
+            <div class="point-list">
+                <div class="point">Fix</div>
+                <div class="point">Sync</div>
+                <div class="point">Time</div>
+                <div class="point">Data Output</div>
+            </div>
+
+            <div class="sub-point-header">RACAM</div>
+            <div class="point-list">
+                <div class="point">Emission</div>
+                <div class="point">Sync</div>
+                <div class="point">Audio Record</div>
+            </div>
+
+            <div class="sub-point-header">Hardware</div>
+            <div class="point-list">
+                <div class="point">Battery</div>
+                <div class="point">Storage</div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="panel right-panel">
+            <div class="panel-header">Environment (Temperature)</div>
+            <div class="point-list">
+                <div class="point">Battery - COMET ONLY</div>
+                <div class="point">INS</div>
+                <div class="point">SDA14</div>
+            </div>
+
+            <div class="sub-point-header">Position</div>
+            <div class="point-list">
+                <div class="point">Latitude</div>
+                <div class="point">Longitude</div>
+                <div class="point">Profondeur</div>
+            </div>
+
+            <div class="sub-point-header">Attitude</div>
+            <div class="point-list">
+                <div class="point">Pitch</div>
+                <div class="point">Roll</div>
+                <div class="point">Heading</div>
+            </div>
+
+            <div class="sub-point-header">AUV-SCM</div>
+            <div class="point-list">
+                <div class="point">WIFI</div>
+            </div>
+
+            <div class="sub-point-header">Sensors</div>
+            <div class="point-list">
+                <div class="point">Engine Controller - Nemo Only</div>
+                <div class="point">DVL</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+
+</body>
+</html>

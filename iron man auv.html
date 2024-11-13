@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AUV Replay</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Map container -->
+    <div id="map" style="height: 500px;"></div>
+    <!-- File input for loading the dataset -->
+    <input type="file" id="fileInput" accept=".json">
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([28.7041, 77.1025], 13); // Starting coordinates
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // AUV marker (dummy object)
+        const auvMarker = L.marker([28.7041, 77.1025]).addTo(map);
+        
+        // Parse the JSON data and animate
+        document.getElementById('fileInput').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = JSON.parse(e.target.result);
+                    animateAUV(data);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function animateAUV(dataset) {
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index >= dataset.length) {
+                    clearInterval(interval); // Stop when reaching the last point
+                    return;
+                }
+                const point = dataset[index].navigation;
+                auvMarker.setLatLng([parseFloat(point.latitude), parseFloat(point.longitude)]);
+                index++;
+            }, 1000); // Adjust this interval for speed control
+        }
+    </script>
+</body>
+</html>

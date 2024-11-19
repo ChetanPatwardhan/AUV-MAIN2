@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Editor</title>
+    <link rel="stylesheet" href="css for the new.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 90vh; width: 100%; }
+        .layer-selector, .map-tools {
+            position: absolute;
+            top: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .layer-selector { left: 70px; }
+        .map-tools { left: 350px; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div class="map-tools">
+        <button id="waypointBtn">Waypoint</button>
+        <button id="saveBtn">Save Waypoints</button> <!-- Button to save waypoints -->
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Array to store waypoints
+        var waypoints = [];
+
+        // Event listener to capture click coordinates
+        map.on('click', function(e) {
+            if (addingWaypoint) {
+                var latlng = e.latlng;
+                waypoints.push(latlng); // Store coordinates
+
+                // Add a marker on the clicked location
+                L.marker(latlng).addTo(map)
+                    .bindPopup("Waypoint: " + latlng.toString())
+                    .openPopup();
+            }
+        });
+
+        // Flag to track if waypoint mode is active
+        var addingWaypoint = false;
+
+        // Handle Waypoint button click
+        document.getElementById('waypointBtn').onclick = function() {
+            addingWaypoint = true;
+            alert('Click on the map to add waypoints');
+        };
+
+        // Handle Save Waypoints button click
+        document.getElementById('saveBtn').onclick = function() {
+            if (waypoints.length === 0) {
+                alert('No waypoints to save');
+                return;
+            }
+
+            // Convert waypoints to a string format (e.g., JSON)
+            var data = JSON.stringify(waypoints, null, 2);
+
+            // Create a Blob object from the data
+            var blob = new Blob([data], { type: 'application/json' });
+
+            // Create a link element to trigger download
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'waypoints.json';
+
+            // Simulate clicking the link to start download
+            link.click();
+        };
+    </script>
+</body>
+</html>

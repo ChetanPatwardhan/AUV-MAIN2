@@ -1,0 +1,758 @@
+[
+    {
+      "navigation": {
+        "latitude": " 0° ",
+        "longitude": "0° ",
+        "pitch": " 0° ",
+        "roll": "0°",
+        "pressureSensor": "0 mBar",
+        "internalPressure": "0 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "0%",
+        "storage": "0 GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "0°",
+        "longitude": "0°",
+        "pitch": "0°",
+        "roll": "0°",
+        "pressureSensor": "0 mBar",
+        "internalPressure": "0 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "0%",
+        "storage": "0 GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7041°",
+        "longitude": "77.1025°",
+        "pitch": "5.2°",
+        "roll": "2.8°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "750 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "85%",
+        "storage": "128GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7045°",
+        "longitude": "77.1030°",
+        "pitch": "5.5°",
+        "roll": "3.1°",
+        "pressureSensor": "980 mBar",
+        "internalPressure": "745 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "84%",
+        "storage": "127GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7041°",
+        "longitude": "77.1025°",
+        "pitch": "5.2°",
+        "roll": "2.8°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "750 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "85%",
+        "storage": "128GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7045°",
+        "longitude": "77.1030°",
+        "pitch": "5.5°",
+        "roll": "3.1°",
+        "pressureSensor": "980 mBar",
+        "internalPressure": "745 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "84%",
+        "storage": "127GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7041°",
+        "longitude": "77.1025°",
+        "pitch": "5.2°",
+        "roll": "2.8°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "750 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "85%",
+        "storage": "128GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7045°",
+        "longitude": "77.1030°",
+        "pitch": "5.5°",
+        "roll": "3.1°",
+        "pressureSensor": "980 mBar",
+        "internalPressure": "745 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "84%",
+        "storage": "127GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    }, {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7041°",
+        "longitude": "77.1025°",
+        "pitch": "5.2°",
+        "roll": "2.8°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "750 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "85%",
+        "storage": "128GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7045°",
+        "longitude": "77.1030°",
+        "pitch": "5.5°",
+        "roll": "3.1°",
+        "pressureSensor": "980 mBar",
+        "internalPressure": "745 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "84%",
+        "storage": "127GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7041°",
+        "longitude": "77.1025°",
+        "pitch": "5.2°",
+        "roll": "2.8°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "750 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "85%",
+        "storage": "128GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7045°",
+        "longitude": "77.1030°",
+        "pitch": "5.5°",
+        "roll": "3.1°",
+        "pressureSensor": "980 mBar",
+        "internalPressure": "745 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "84%",
+        "storage": "127GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7050°",
+        "longitude": "77.1040°",
+        "pitch": "5.7°",
+        "roll": "3.3°",
+        "pressureSensor": "975 mBar",
+        "internalPressure": "740 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "83%",
+        "storage": "126GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7055°",
+        "longitude": "77.1045°",
+        "pitch": "5.8°",
+        "roll": "3.5°",
+        "pressureSensor": "985 mBar",
+        "internalPressure": "755 mBar"
+      },
+      "gps": {
+        "fix": "Yes",
+        "sync": "No"
+      },
+      "hardware": {
+        "battery": "82%",
+        "storage": "125GB"
+      }
+    },
+    {
+      "navigation": {
+        "latitude": "28.7060°",
+        "longitude": "77.1050°",
+        "pitch": "6.0°",
+        "roll": "3.8°",
+        "pressureSensor": "990 mBar",
+        "internalPressure": "760 mBar"
+      },
+      "gps": {
+        "fix": "No",
+        "sync": "Yes"
+      },
+      "hardware": {
+        "battery": "81%",
+        "storage": "124GB"
+      }
+    }
+  ]
+  

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fin Test Interface</title>
+  <style>
+    button {
+      padding: 10px 15px;
+      margin: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 3px;
+      border: none;
+    }
+    #finTestButton { background-color: #007bff; color: #fff; }
+    #startButton { background-color: #28a745; color: #fff; }
+    #cancelButton { background-color: #dc3545; color: #fff; }
+  </style>
+</head>
+<body>
+  <button id="finTestButton">Fin Test</button>
+  <button id="startButton" style="display:none;">Start</button>
+  <button id="cancelButton" style="display:none;">Cancel</button>
+
+  <div id="feedback"></div>
+
+  <script>
+    const finTestButton = document.getElementById("finTestButton");
+    const startButton = document.getElementById("startButton");
+    const cancelButton = document.getElementById("cancelButton");
+    const feedback = document.getElementById("feedback");
+
+    let port;
+    let writer;
+
+    finTestButton.addEventListener("click", async () => {
+      startButton.style.display = "inline";
+      cancelButton.style.display = "inline";
+      feedback.innerText = "Press 'Start' to begin Fin Test.";
+
+      // Request serial port and initialize writer
+      port = await navigator.serial.requestPort();
+      await port.open({ baudRate: 9600 });
+      writer = port.writable.getWriter();
+    });
+
+    startButton.addEventListener("click", async () => {
+      feedback.innerText = "Fin Test started...";
+      await sendServoCommand("rotate"); // Send command to Arduino
+      feedback.innerText = "Fin Test Successful. Servo rotated to X°.";
+      alert("Fin Test Successful");
+    });
+
+    cancelButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      cancelButton.style.display = "none";
+      feedback.innerText = "";
+    });
+
+    async function sendServoCommand(command) {
+      const encoder = new TextEncoder();
+      await writer.write(encoder.encode(command));
+    }
+  </script>
+</body>
+</html>

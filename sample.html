@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sample</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        body{
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(230, 226, 226);
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: rgb(161, 158, 158);
+            color:black;
+            font-size: medium;
+        }
+
+        .header .left,
+        .header .center,
+        .header .right{
+            flex: 1;
+        }
+        .header .center {
+            text-align: center;
+        }
+
+        .header .right {
+            text-align: right;
+        }
+        .divider1{
+            border-bottom: 2px solid black;
+            margin: 0 0;
+        }
+
+        .main{
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+        .left-panel{
+            width: 10%;
+            padding: 15px;
+            background-color: rgb(230, 226, 226);
+        }
+
+        .left-panel .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .left-panel .buttons button {
+            padding: 10px;
+            background-color: white;
+            color:black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .center-panel{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content:flex-start;
+            padding: 20px;
+            position:relative;
+        }
+        .zoom-panel{
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: black;
+        }
+        .degree-display{
+            font-size: 13px;
+        }
+        .layer-box {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 150px;
+            border: 2px solid black;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .layer-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .layer-list {
+            font-size: 12px;
+        }
+
+        /* Set the map height */
+        #map {
+            height: 80%;
+            width: 80%;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .right-panel{
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: rgb(161, 158, 158);
+            padding: 15px;
+        }
+
+        .file-info{
+            text-align: left;
+            margin-bottom: auto;
+        }
+        .file-info div{
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: black;
+        }
+        #durationDisplay {
+            font-weight: bold;
+            color: blue;
+        }
+        .divider{
+            border-bottom: 2px solid black;
+            margin: 20px 0;
+        }
+        .mission-buttons {
+            text-align: right;
+        }
+
+        .mission-buttons button{
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            color:black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="left"><b>Mission Editor</b></div>
+        <div class="center">
+            <img src="bfl1.jpg" alt="Company Logo"  width="120" height="43">
+        </div>
+        <div class="right"><b>AUV</b></div>
+    </div>
+    <div class="divider1"></div>
+    <div class="main">
+        <div class="left-panel">
+                <div class="buttons">
+                    <button> <img src="measure.png" alt="measure" style="border: 1px solid white;" width="30" height="25">Measure</button>
+                    <button> <img src="drag.png" alt="drag" style="border: 1px solid white;" width="30" height="25">Drag</button>
+                    <button> <img src="center.jpg" alt="center" style="border: 1px solid white;" width="30" height="25">Center</button>
+                    <button> <img src="edit.png" alt="edit" style="border: 1px solid white;" width="30" height="25">Edit</button>
+                </div>
+        </div>
+        <div class="center-panel">
+            <div class="zoom-panel">
+                Zoom Level 
+                <input type="range" id="zoomRange"  min="1" max="19" value="13" onchange="updateZoomValue()">
+                <span id="zoomValue">13</span>
+            </div>
+            <div class="degree-display">
+                0° 
+                <input type="range" id="degreeRange" min="0" max="360" value="0" onchange="updateDegreeValue()">
+                <span id="degreeValue">0°</span>
+            </div>
+            <div class="layer-box">
+                <div class="layer-header">Layers</div>
+                <select id="layerSelect" onchange="addLayer()">
+                    <option value="" disabled selected>Select a layer</option>
+                    <option value="S57">S57</option>
+                    <option value="S63">S63</option>
+                    <option value="GeoTIFF">GeoTIFF</option>
+                    <option value="WMTS">WMTS</option>
+                    <option value="WMS">WMS</option>
+                </select>
+                <div class="layer-list">
+                    <!-- Dynamically added layers will appear here -->
+                </div>
+            </div>
+            <!-- Interactive Map Container -->
+            <div id="map"></div>
+        </div>
+
+        <div class="right-panel">
+            <div class="file-info">
+                <div>File Path</div>
+                <div>Duration</div>
+                <div id="durationDisplay">00:00:00</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="mission-buttons">
+                <button>
+                    <img src="open.png" alt="open file" style="border: 1px solid white;" width="30" height="18">
+                Open an Existing Mission</button>
+                <button>
+                    <img src="create.jpg" alt="create file" style="border: 1px solid white;" width="30" height="25">
+                Create New Mission</button>
+            </div>
+
+    </div>
+    
+     <script>
+        // Initialize the map
+        var map = L.map('map').setView([21.5193, 85.9709], 13); // Centered based on your Google Maps iframe coordinates
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Array to store markers
+        var markers = [];
+
+        // Predefined AUV speed in km/h (you can adjust this value)
+        const auvSpeedKmh = 10; // Example: 10 km/h
+
+        // Function to format duration in HH:MM:SS
+        function formatDuration(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Function to update duration display
+        function updateDuration(distanceMeters) {
+            // Convert distance to kilometers
+            const distanceKm = distanceMeters / 1000;
+
+            // Calculate duration in hours
+            const durationHours = distanceKm / auvSpeedKmh;
+
+            // Convert duration to seconds
+            const durationSeconds = durationHours * 3600;
+
+            // Format duration
+            const formattedDuration = formatDuration(durationSeconds);
+
+            // Update the display
+            document.getElementById('durationDisplay').textContent = formattedDuration;
+        }
+
+        // Function to draw a line between two points and measure the distance
+        function addLineAndMeasureDistance(latlng1, latlng2) {
+            var line = L.polyline([latlng1, latlng2], { color: 'red' }).addTo(map);
+            var distance = map.distance(latlng1, latlng2); // in meters
+            // Update duration based on distance
+            updateDuration(distance);
+            // Optionally, display the distance
+            alert('Distance: ' + (distance / 1000).toFixed(2) + ' km');
+        }
+
+        // Add click event to the map to add markers
+        map.on('click', function(e) {
+            var marker = L.marker(e.latlng).addTo(map);
+            markers.push(marker);
+
+            if (markers.length === 2) {
+                var latlng1 = markers[0].getLatLng();
+                var latlng2 = markers[1].getLatLng();
+                addLineAndMeasureDistance(latlng1, latlng2);
+                markers = []; // Clear markers after drawing line
+            }
+        });
+
+        // Layer management
+        function addLayer() {
+            const select = document.getElementById('layerSelect');
+            const layerName = select.value;
+            const layerList = document.querySelector('.layer-list');
+            const existingLayer = Array.from(layerList.children).find(layer => layer.textContent.includes(layerName));
+
+            if (!existingLayer) {
+                const layerItem = document.createElement('div');
+                layerItem.className = 'layer-item';
+                layerItem.innerHTML = `${layerName} <button onclick="removeLayer(this)"><img src="delet2.jpg" alt="delete layer" style="border: 1px solid white;" width="15" height="15"></button>`;
+                layerList.appendChild(layerItem);
+            }
+        }
+
+        function removeLayer(button) {
+            const layerItem = button.parentElement;
+            layerItem.remove();
+        }
+    </script>
+    <script>
+               function updateZoomValue() {
+             const zoomRange = document.getElementById('zoomRange');
+             const zoomValue = document.getElementById('zoomValue');
+             zoomValue.textContent = zoomRange.value;
+             map.setZoom(zoomRange.value);
+        }
+
+            function updateDegreeValue() {
+            const degreeRange = document.getElementById('degreeRange');
+            const degreeValue = document.getElementById('degreeValue');
+            degreeValue.textContent = `${degreeRange.value}°`;
+            // Optional: Rotate the map or other elements based on degree value
+        }
+    </script>
+    
+</body>
+</html>

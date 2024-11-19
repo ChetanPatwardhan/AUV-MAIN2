@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting</title>
+    <link rel="stylesheet" href="general setting.css">
+
+    <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Header */
+        .header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-top: 2px solid black;
+        }
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        /* Footer Divider (just above the footer) */
+        .footer-divider {
+            position: fixed;
+            bottom: 38px; /* Adjust this value based on footer height */
+            width: 100%;
+            border-top: 2px solid black;
+        }
+
+        .right-panel .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            width: 65%;
+            
+        }
+        .right-panel .toggle-button {
+            width: 40px;
+            height: 20px;
+            background-color: #5bca85;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        .right-panel .toggle-button::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+        .right-panel .toggle-button.active::before {
+            left: 22px;
+        }
+        .unit-item{
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="left-panel panel">
+        <h4>General</h4>
+        <div class="form-group">
+            <label for="theme">Theme</label>
+            <select id="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="solarized">Solarized</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="language">Language</label>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button id="sound">Sound: Off</button>
+        </div>
+        <h4>Units</h4>
+        <div class="unit-item">
+            <label for="distance">Distance (m)</label>
+            <select id="distance">
+                <option value="m">m</option>
+                <option value="feet">feet</option>
+            </select>
+        </div>
+        <div class="unit-item">
+            <label for="coordinate">Coordinate</label>
+            <select id="coordinate">
+                <option value="D">D</option>
+                <option value="DWH">DWH</option>
+                <option value="DM">DM</option>
+                <option value="DMWH">DMWH</option>
+                <option value="DMS">DMS</option>
+                <option value="DMSWH">DMSWH</option>
+            </select>
+        </div>
+        <div class="unit-item">
+            <label for="speed">Speed (m/s)</label>
+            <select id="speed">
+                <option value="m/s">m/s</option>
+                <option value="knots">knots</option>
+            </select>
+        </div>
+
+        <!-- Pressure Attribute -->
+        <div class="unit-item">
+            <label for="pressure">Pressure</label>
+            <select id="pressure">
+                <option value="bar">Bar</option>
+                <option value="mbar">mBar</option>
+            </select>
+        </div>
+
+        <!-- Temperature Attribute -->
+        <div class="unit-item">
+            <label for="temperature">Temperature</label>
+            <select id="temperature">
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="right-panel panel">
+        <h4>Connection</h4>
+          <!-- State row -->
+          <div class="item-row">
+            <span>State</span>
+            <span>Opened - No Data</span>
+        </div>
+
+        <!-- Name row -->
+        <div class="item-row">
+            <span>Name</span>
+            <span>COMET-300</span>
+        </div>
+
+        <!-- IP@ row -->
+        <div class="item-row">
+            <span>IP@</span>
+            <span>192.168.30.57</span>
+        </div>
+
+        <!-- Selectionner row -->
+        <div class="item-row" id="aaa">
+            <span>Selectionner</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select>
+                <option value="COMET-300">COMET-300</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <!-- Connect row -->
+        <div class="item-row">
+            <span>Connect</span>
+            <div class="toggle-button" id="connect-toggle"></div>
+        </div>
+
+        <!-- Auto connect row -->
+        <div class="item-row">
+            <span>Auto Connect</span>
+            <div class="toggle-button" id="auto-connect-toggle"></div>
+        </div>
+
+        <!-- Edit row -->
+        <div class="item-row">
+            <span>Edit</span>
+            <div class="toggle-button" id="edit-toggle"></div>
+        </div>
+        <h4>Host list</h4>
+    </div>
+    
+    <!-- Divider Line Above Footer -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Battery: 85%</span>
+        <span>Mode: Autonomous</span>
+        <span>Host: 192.168.0.1</span>
+        <span>GPS: 14.764561, 74.147303</span>
+    </div>
+        <script>
+            // JavaScript to handle toggle buttons
+            document.querySelectorAll('.toggle-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+        </script>    
+    
+    <script>
+        // JavaScript to handle the circle button toggle
+        function toggleButton(button) {
+            button.classList.toggle('active');
+        }
+    </script>
+    </div>
+
+    <script>
+        document.getElementById('theme').addEventListener('change', function() {
+            var selectedTheme = this.value;
+    
+            // Remove any existing theme classes
+            document.body.classList.remove('dark-theme', 'solarized-theme');
+    
+            // Add the selected theme class
+            if (selectedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (selectedTheme === 'solarized') {
+                document.body.classList.add('solarized-theme');
+            } else {
+                // Default to light theme
+                document.body.classList.remove('dark-theme', 'solarized-theme');
+            }
+        });
+    
+        // JavaScript to handle the sound button text
+        document.getElementById('sound').addEventListener('click', function() {
+            var button = this;
+            if (button.textContent === 'Sound: Off') {
+                button.textContent = 'Sound: On';
+                // Add logic here to enable sound if needed
+            } else {
+                button.textContent = 'Sound: Off';
+                // Add logic here to disable sound if needed
+            }
+        });
+    
+        // JavaScript to increase values for mission default parameters
+        function increaseValue(id) {
+            var element = document.getElementById(id);
+            var currentValue = parseInt(element.value);
+            if (currentValue < 300) { // Ensure the value does not exceed 300
+                element.value = currentValue + 10; // Increase by 10 (or adjust as needed)
+            }
+        }
+        
+         // Handle Save Mission
+         document.getElementById('saveMission').addEventListener('click', function() {
+             alert('Setting saved successfully!');
+                 // Additional mission saving logic can be added here, such as sending data to a server or saving it locally
+                 });
+    </script>
+    
+</body>
+</html>
